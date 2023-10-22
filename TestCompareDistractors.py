@@ -1,3 +1,18 @@
+from wikipedia2vec import Wikipedia2Vec
+import os
+
+cur_path = os.path.dirname(__file__)
+#f = open(cur_path + "/WikipediaEmbeddings/enwiki_20180420_100d.pkl", 'r', errors = "ignore")
+wiki2vec = Wikipedia2Vec.load(cur_path + "/WikipediaEmbeddings/enwiki_20180420_100d.pkl")
+#wiki2vec.get_word_vector('the')
+
+print(wiki2vec.most_similar(wiki2vec.get_word('lint'), 5))
+
+# Emb Sim !!! 
+# POS (part of speech) tagging
+# plurality
+# frequency
+
 word1 = 'hello1'
 word2 = 'world1'
 

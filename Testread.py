@@ -3,7 +3,9 @@ import json
 
 def open_json_as_dict(filename):
     cur_path = os.path.dirname(__file__)
-    f = open(cur_path + "\\SciQ\\SciQ dataset-2 3\\" + filename)
+    f = open(cur_path + "/SciQ/SciQ dataset-2 3/" + filename)
+    # f = open(cur_path + "\\SciQ\\SciQ dataset-2 3\\" + filename)
+
     return json.loads(f.read())
 
 def extract_field(field, dict):
