@@ -24,7 +24,7 @@ validateDict = open_json_as_dict("valid.json")
 trainDict = open_json_as_dict("train.json")
 
 print(trainDict[0])
-print("\n-=+=-\n")
+print("\n-=+=-\n") 
 
 for i in range(10):
     print(f"{i}: {validateDict[i]['question']}")
