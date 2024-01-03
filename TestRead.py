@@ -19,6 +19,22 @@ def extract_all_distractors(dictIn): # extracts the set of all unique distractor
     testDistAll = testDist1 + testDist2 + testDist3
     return list(dict.fromkeys(testDistAll))
 
+def combine_evidence(dictIn):
+    support = extract_field("support", dictIn)
+    out = ""
+    for i in range(len(support)):
+        out += " " + support[i]
+    return out
+
+def count_text(text):
+    totals = {}
+    for token in text:
+        if token in totals:
+            totals[token] += 1
+        else:
+            totals[token] = 1
+    return totals
+
 print()
 
 testDict = open_json_as_dict("test.json")

@@ -1,12 +1,12 @@
-# from wikipedia2vec import Wikipedia2Vec
+from wikipedia2vec import Wikipedia2Vec
 import os
 import spacy
 import TestRead
 
 cur_path = os.path.dirname(__file__)
-#f = open(cur_path + "/WikipediaEmbeddings/enwiki_20180420_100d.pkl", 'r', errors = "ignore")
-# wiki2vec = Wikipedia2Vec.load(cur_path + "/WikipediaEmbeddings/enwiki_20180420_100d.pkl")
-#wiki2vec.get_word_vector('the')
+f = open(cur_path + "/WikipediaEmbeddings/enwiki_20180420_100d.pkl", 'r', errors = "ignore")
+wiki2vec = Wikipedia2Vec.load(cur_path + "/WikipediaEmbeddings/enwiki_20180420_100d.pkl")
+wiki2vec.get_word_vector('the')
 
 # print(wiki2vec.most_similar(wiki2vec.get_word('lint'), 5))
 
@@ -80,7 +80,12 @@ def pos_similarity(tok1, tok2):
     orSum = sum(tok1Totals.values()) + sum(tok2Totals.values()) - andSum
     return andSum/orSum
 
-
+def word_freq(tok, dict):
+    total = 0
+    for token in tok:
+        if token in dict:
+            total += dict[token]
+    return total/sum(dict.values())
 
 def edit_distance(str1, str2):  
     m, n = len(str1), len(str2)  

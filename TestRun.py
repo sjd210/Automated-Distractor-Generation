@@ -5,6 +5,7 @@ from sklearn import linear_model
 import pandas as pd
 import spacy
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 
 def logit2prob(logr, X):
   log_odds = logr.intercept_[0]
@@ -20,7 +21,10 @@ dist1 = TestRead.extract_field("distractor1", dict)
 dist2 = TestRead.extract_field("distractor2", dict)
 dist3 = TestRead.extract_field("distractor3", dict)
 answer = TestRead.extract_field("correct_answer", dict)
-# support = TestRead.extract_field("correct_answer", dict)
+support = TestRead.extract_field("support", dict)
+
+allSupport = TestRead.combine_evidence(dict)
+allSupportDict = TestRead.count_text(allSupport)
 
 all_dists_list = [val for a in zip(dist1, dist2, dist3) for val in a][0:len(question)*3]
 all_dists = np.transpose([dist1,dist2,dist3])
@@ -43,7 +47,9 @@ for i in range(len(question)):
   for j in range(3):
     tokenDist[i][j] = tokenise(str(all_dists[i][j])) # pretokenising - maybe I should store this in a file and just read that?
 
-logreg = LogisticRegression(random_state=16, max_iter=10000)
+logreg = LogisticRegression(random_state=1, max_iter=10000)
+clf = RandomForestClassifier(max_depth=2, random_state=1)
+
 X2 = [[]] * len(question)
 for q in range(len(question)):
   X = {"emb_sim_qd": [], "emb_sim_ad": [], "pos_sim_ad": [], "edit_dist": [], "token_sim_qd": [], "token_sim_ad": [], "token_sim_qa": [], "character_length_a": [], "character_length_d": [],
@@ -66,8 +72,8 @@ for q in range(len(question)):
       X["token_length_diff"] += [TestCompareDistractors.token_length_diff(tokenAnswer[q], tokenDist[i][j])]
       X["abs_comm_suffix"] += [TestCompareDistractors.longest_suffix_length(answer[q], all_dists[i][j])]
       X["rel_comm_suffix"] += [TestCompareDistractors.longest_suffix_length(answer[q], all_dists[i][j])/len(all_dists[i][j])] # relative to the distractor?
-      X["word_freq_a"] += [0]
-      X["word_freq_d"] += [0]
+      X["word_freq_a"] += [TestCompareDistractors.word_freq(tokenAnswer[q], allSupportDict)]
+      X["word_freq_d"] += [TestCompareDistractors.word_freq(tokenDist[i][j], allSupportDict)]
       X["sing_plur"] += [TestCompareDistractors.singular_plural_consistency(tokenAnswer[q], tokenDist[i][j])]
       X["number_a"] += [TestCompareDistractors.does_string_contain_number(tokenAnswer[q])]
       X["number_d"] += [TestCompareDistractors.does_string_contain_number(tokenDist[i][j])]
@@ -85,6 +91,8 @@ for q in range(len(question)):
  #  y2 = pd.DataFrame.from_dict(y)
 
   logreg.fit(X2[q], y)
+  clf.fit(X2[q], y)
+  # can mostly use GradientBoostingRegressor for LambdaMART?
 
 """
   y = {"Outcome": [0] * (len(question)*3)}
@@ -92,13 +100,20 @@ for q in range(len(question)):
   y["Outcome"][q*3 + 1] = 1
   y["Outcome"][q*3+ 2] = 1 """
 
-print(logreg.coef_)
+# print(logreg.coef_)
 
-# print(X2)
+# print(X2[2])
 
 a = np.array(logit2prob(logreg, X2[2]))
+b = np.array(clf.predict_proba(X2[2])).T[1]
 df = pd.DataFrame({"value": a, "distractor": all_dists_list}).sort_values(by="value")
-print(df)
+df2 = pd.DataFrame({"value": b, "distractor": all_dists_list}).sort_values(by="value")
+print(df.to_string())
+#np.set_printoptions(threshold=np.inf)
+print(df2)
+print(question[2])
+print(all_dists[2])
+print(answer[2]) # we should bar the correct answer from showing up here
 
 # y_pred = logreg.predict(X2)
 # print(y_pred)
