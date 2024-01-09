@@ -28,11 +28,11 @@ def combine_evidence(dictIn):
 
 def count_text(text):
     totals = {}
-    for token in text:
-        if token in totals:
-            totals[token] += 1
+    for word in text.split():
+        if word in totals:
+            totals[word] += 1
         else:
-            totals[token] = 1
+            totals[word] = 1
     return totals
 
 print()
