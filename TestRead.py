@@ -1,5 +1,6 @@
 import os
 import json 
+import numpy as np
 
 def open_json_as_dict(filename):
     cur_path = os.path.dirname(__file__)
@@ -34,6 +35,19 @@ def count_text(text):
         else:
             totals[word] = 1
     return totals
+
+def extract_all_fields(dict, rank):
+  question = extract_field("question", dict)[0:rank]
+  answer = extract_field("correct_answer", dict)[0:rank]
+  dist1 = extract_field("distractor1", dict)[0:rank]
+  dist2 = extract_field("distractor2", dict)[0:rank]
+  dist3 = extract_field("distractor3", dict)[0:rank]
+  allSupport = combine_evidence(dict)[0:rank]
+  allSupportDict = count_text(allSupport)
+
+  allDistsList = [val for a in zip(dist1, dist2, dist3) for val in a][0:rank*3]
+  allDists = np.transpose([dist1,dist2,dist3])
+  return (question, answer, allDistsList, allDists, allSupportDict)
 
 print()
 

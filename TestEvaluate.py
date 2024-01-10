@@ -6,11 +6,26 @@ def recallAt(dataframe, rank, questionNo, allDists): # "we report top recall (R@
         total += dataframe.iloc[len(dataframe)-i]['distractor'] in [str(allDists[questionNo][0]), str(allDists[questionNo][1]), str(allDists[questionNo][2])]
     return total/3
 
+def meanRecallAt(dataframeList, rank, allDists):
+    size = len(dataframeList[0])//3
+    total = [0] * size
+    for q in range(size):
+        total[q] = recallAt(dataframeList[q], rank, q, allDists)
+    return sum(total)/size
+
+
 def precisionAt(dataframe, rank, questionNo, allDists):
     total = 0
     for i in range(1, rank+1):
         total += dataframe.iloc[len(dataframe)-i]['distractor'] in [str(allDists[questionNo][0]), str(allDists[questionNo][1]), str(allDists[questionNo][2])]
     return total/rank
+
+def meanPrecisionAt(dataframeList, rank, allDists):
+    size = len(dataframeList[0])//3
+    total = [0] * size
+    for q in range(size):
+        total[q] = precisionAt(dataframeList[q], rank, q, allDists)
+    return sum(total)/size
 
 def averagePrecisionAt(dataframe, rank, questionNo, allDists):
     total = 0
@@ -42,6 +57,13 @@ def idcgAt(rank):
 
 def ndcgAt(dataframe, rank, questionNo, allDists): #https://www.evidentlyai.com/ranking-metrics/ndcg-metric
     return dcgAt(dataframe, rank, questionNo, allDists)/idcgAt(rank)
+
+def meanNdcgAt(dataframeList, rank, allDists):
+    size = len(dataframeList[0])//3
+    total = [0] * size
+    for q in range(size):
+        total[q] = averagePrecisionAt(dataframeList[q], rank, q, allDists)
+    return sum(total)/size
 
 
 def reciprocalRank(dataframe, questionNo, allDists):
