@@ -9,8 +9,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from gensim.models import KeyedVectors
 
-wiki2vec2 = KeyedVectors.load_word2vec_format("WikipediaEmbeddings/small_test.txt", binary = False)
-#wiki2vec2 = KeyedVectors.load_word2vec_format("WikipediaEmbeddings/enwiki_20180420_100d.txt", binary = False)
+#wiki2vec2 = KeyedVectors.load_word2vec_format("WikipediaEmbeddings/small_test.txt", binary = False)
+wiki2vec2 = KeyedVectors.load_word2vec_format("WikipediaEmbeddings/enwiki_20180420_100d.txt", binary = False)
 tokenise = spacy.load("en_core_web_lg")
 
 def logit2prob(logr, X):
@@ -78,14 +78,14 @@ trainDict = TestRead.open_json_as_dict("train.json")
 validateDict = TestRead.open_json_as_dict("valid.json")
 
 rank = 1000#len(trainDict)
-rank2 = 100#len(validateDict)
+rank2 = 1000#len(validateDict)
 
 col_names = ["emb_sim_qd", "emb_sim_ad", "pos_sim_ad", "edit_dist", "token_sim_qd", "token_sim_ad", "character_length_a", "character_length_d",
              "character_length_diff", "token_length_a", "token_length_d", "token_length_diff", "abs_comm_suffix", "rel_comm_suffix", "word_freq_a", "word_freq_d",
              "sing_plur", "number_d", "number_diff", "wikisim"]
 
 logreg = LogisticRegression(random_state=1, max_iter=10000)
-randomForest = RandomForestClassifier(random_state=1, n_estimators=100) # set number of trees to 500
+randomForest = RandomForestClassifier(random_state=1, n_estimators=500) # set number of trees to 500
 # (we want 500 rounds of boosting in lambdaMart)
 lambdaMart = xgboost.XGBRanker(tree_method="hist",  objective="rank:ndcg")#, lambdarank_num_pair_per_sample=8, lambdarank_pair_method="topk")
 

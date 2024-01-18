@@ -62,7 +62,7 @@ def meanNdcgAt(dataframeList, rank, allDists):
     size = len(dataframeList[0])//3
     total = [0] * size
     for q in range(size):
-        total[q] = averagePrecisionAt(dataframeList[q], rank, q, allDists)
+        total[q] = ndcgAt(dataframeList[q], rank, q, allDists)
     return sum(total)/size
 
 
