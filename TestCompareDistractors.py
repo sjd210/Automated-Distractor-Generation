@@ -1,23 +1,10 @@
 from wikipedia2vec import Wikipedia2Vec
 import os
 from gensim.models import KeyedVectors
-
-'''cur_path = os.path.dirname(__file__)
-#wiki2vec = Wikipedia2Vec.load(cur_path + "/WikipediaEmbeddings/enwiki_20180420_100d.pkl")
-wiki2vec2 = KeyedVectors.load_word2vec_format("WikipediaEmbeddings/enwiki_20180420_100d.txt", binary = False)
-#wiki2vec2 = KeyedVectors.load_word2vec_format("WikipediaEmbeddings/small_test.txt", binary = False)
-#wiki2vec3 = KeyedVectors.load_word2vec_format("WikipediaEmbeddings/enwiki_20180420_100d.pkl", binary = True)
-print(wiki2vec2)
-print(wiki2vec2.similarity('the', 'of'))
-print(wiki2vec2.most_similar('ENTITY/Gravity'))
-
-#print(wiki2vec.most_similar(wiki2vec.get_entity('Scarlett Johansson'), 5)) '''
-
-# Emb Sim !!! 
-# POS (part of speech) tagging
-# plurality
-# frequency
-# nlp = spacy.load("en_core_web_sm")
+import numpy as np
+from numpy import dot
+from numpy.linalg import norm
+import spacy
 
 def embedding_sim(tok1, tok2):
     return tok1.similarity(tok2)
@@ -29,16 +16,32 @@ def name_to_entity_name(name):
 
 def wiki_sim_entity(str1, str2, wv):
     try:
-      #  print(name_to_entity_name(str1), name_to_entity_name(str2))
         return wv.similarity(name_to_entity_name(str1), name_to_entity_name(str2))
     except:
        return 0
     
-def wiki_sim_word(str1, str2, wv):
-    try:
-        return wv.similarity(str1, str2) # TODO
-    except:
-        return 0
+def wiki_sim_base_similarity(tok1, tok2, wv):
+    sum = np.zeros(100)
+    validTotal = 0
+    for token1 in tok1:
+        try:
+            sum += np.array(wv[token1.text.lower()])
+            validTotal += 1
+        except:
+            sum = sum
+    a = sum/validTotal
+
+    sum2 = np.zeros(100)
+    validTotal2 = 0
+    for token2 in tok2:
+        try:
+            sum2 += np.array(wv[token2.text.lower()])
+            validTotal2 += 1
+        except:
+            sum2 = sum2
+    b = sum2/validTotal2
+
+    return(min(1,dot(a, b)/(norm(a)*norm(b)))) #https://medium.com/@igniobydigitate/a-beginners-guide-to-measuring-sentence-similarity-f3c78b9da0bc
 
 def is_string_plural(tok):
     for token in tok:
