@@ -1,0 +1,57 @@
+.title {
+    width: 30vw;
+    margin-bottom: 2%;
+}
+  
+.datasetSubtitle {
+    width: 20vw;
+}
+
+.subtitle {
+    width: 20vw;
+}
+  
+.Content {
+    font-size: 1.5vh;
+}
+
+.datasetGrid {
+    display: grid;
+    place-items: center;
+    padding-top: 4vh;
+    padding-bottom: 4vh;
+    padding-right: 10px;
+    gap: 4.1vw;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.tableContainer{
+    margin: 2.5vw;
+    width: 95vw;
+    background-color: #F2F2F2;
+    border-radius: 20px;
+    height: 244px;
+    overflow:hidden;
+    display: flex
+}
+
+.paperContainer{
+    width: 5%;
+    height: 100%;
+}
+
+.tableContainer2{
+    width:95%;
+    overflow: scroll;
+}
+
+table{
+    border-collapse: collapse; 
+}
+
+tr { 
+    border-bottom: 1px solid rgb(0, 0, 0);
+}
+  
+
+  

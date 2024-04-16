@@ -1,2 +1,15 @@
 
-WikipediaEmbeddings/enwiki_20180420_100d.pkl
+/code/Feature_based/WikipediaEmbeddings
+/code/Feature_based/SciQ dataset-2 3
+/code/Feature_based/ARC-Challenge
+/code/Feature_based/ARC-Challenge-2
+/code/Feature_based/ARC-Combined
+/code/Feature_based/ARC-Easy
+/code/Feature_based/ARC-Easy-2
+/code/Feature_Based/PrecomputedFeatures
+/code/Feature_Based/PrecomputedModels
+/code/Feature_Based/ARC_Corpus.txt
+/code/Feature_Based/arcDict
+/code/Feature_Based/sciqSupportDict
+/code/Network/sciq_processed
+/code/Network/sciq_processed_2

@@ -1,0 +1,30 @@
+.Bio2 {
+    background-color: rgb(98, 151, 231);
+}
+  
+.Subtitle {
+    font-weight: 500;
+    font-size: 3.5vh;
+    color: white;
+}
+
+.afterTitle {
+    background-image: url("woodFloor.png");
+    background-repeat: repeat;
+    background-size: 300px;
+}
+
+.Bio {
+    background-image: url("woodFloor.png");
+    background-repeat: repeat;
+    background-size: 300px;
+    text-align: center;
+    min-height: 91vh;
+    text-align: center;
+    overflow: hidden;
+}
+
+.Sections {
+    color: white;
+}
+  
