@@ -11,15 +11,18 @@ import Read
 import pickle
 import datetime
 
+import sys
+sys.path.append('../Feature_Based')
+import Evaluators
+
 # env: 3.11.8 'cuda'
 
 featureSize = 32
-hiddenSize = 32
-batchSize = 32 # OR 64???
+batchSize = 32 
 poolsSize = 64
 weightDecay = 0.01
-d_learnRate = 0.001
-g_learnRate = 0.001
+d_learnRate = 0.01
+g_learnRate = 0.01
 temperature = 0.2
 lambdaVal = 0.5
 negativeSampleSize = 16
@@ -53,11 +56,11 @@ print("3. Creating Models")
 cuda = torch.device('cuda:0')
 # Gradient Learners
 with torch.cuda.device('cuda:0'):
-    G_v1 = torch.autograd.Variable((torch.ones(featureSize, hiddenSize)).cuda(), requires_grad=True)
-    G_v2 = torch.autograd.Variable((torch.ones(hiddenSize, 1)).cuda(), requires_grad=True)
+    G_v1 = torch.autograd.Variable((torch.ones(featureSize, featureSize)).cuda(), requires_grad=True)
+    G_v2 = torch.autograd.Variable((torch.ones(featureSize, 1)).cuda(), requires_grad=True)
     
-    D_v1 = torch.autograd.Variable((torch.ones(featureSize, hiddenSize)).cuda(), requires_grad=True)
-    D_v2 = torch.autograd.Variable((torch.ones(hiddenSize, 1)).cuda(), requires_grad=True)
+    D_v1 = torch.autograd.Variable((torch.ones(featureSize, featureSize)).cuda(), requires_grad=True)
+    D_v2 = torch.autograd.Variable((torch.ones(featureSize, 1)).cuda(), requires_grad=True)
 
     evaluateLoss = torch.nn.DataParallel(Model.Loss(), [0])
     evaluateLoss.cuda()
@@ -78,12 +81,6 @@ g_opt = torch.optim.SGD(gp, lr = g_learnRate, momentum=0.9)
 
 dp = list(generator.parameters()) + [D_v1, D_v2]
 d_opt = torch.optim.SGD(dp, lr = d_learnRate, momentum=0.9)
-
-
-#print("4. Creating log files")
-#timeStamp = time.strftime("%Y%m%d%H%M%S", time.localtime(int(time.time())))
-#log_precision = 'log/WOOP.test.gan_precision.{}.log'.format(timeStamp)
-#log_loss = 'log/WOOP.test.gan_loss.{}.log'.format(timeStamp)
 
 dEpochCount = 1
 gEpochCount = 1
@@ -194,13 +191,9 @@ def main():
                 if index % 10 == 0:
                     print(datetime.datetime.now().strftime("%X"), "Generator Epoch: %d/%d - %d/%d Loss:" %(g_epoch+1, gEpochCount, index, lenData), loss.item())
 
-                    r10 = 0
-                    p1 = 0
-                    p3 = 0
-
+                    dfList = []
                     for i in range(1, len(testDataDict.keys())):
                         alltest_labels = []
-                        alltest_predicts = []
                         b = list(testDataDict.keys())[i]
                         
                         candidates = Read.load_samples(b, testDataDict[b][0], testDataDict[b][1], testDataDict["all_dists"], vocab, maxSeqLength)
@@ -212,42 +205,13 @@ def main():
                         preds = []
                         for batch in Read.batch(candidates, batchSize):
                             preds += generator.module.get_score(torch.tensor(batch).cuda())
+                        preds_tensor = torch.tensor(preds, device = 'cpu')
 
-                        new_tensor = torch.tensor(preds, device = 'cpu')
+                        dfList += pd.DataFrame({"value": preds_tensor, "label": alltest_labels}).sort_values(by="value")
 
-                        df = pd.DataFrame({"value": new_tensor, "label": alltest_labels}).sort_values(by="value")
-                        #print(df)
-                        # print(df.iloc[-1]['label'], " ", end='') 
-
-                        # RECALL @ 10
-                        rank = 10
-                        total = 0
-                        for i in range(1, rank+1):
-                            total += df.iloc[len(df)-i]['label'] == 1
-                        r10 += total/3
-                    
-                        # PRECISION @ 1, PRECISION @ 3
-                        rank = 1
-                        total = 0
-                        for i in range(1, rank+1):
-                            total += df.iloc[len(df)-i]['label'] == 1
-                        p1 += total/rank
-
-                        rank = 3
-                        total = 0
-                        for i in range(1, rank+1):
-                            total += df.iloc[len(df)-i]['label'] == 1
-                        p3 += total/rank
-
-                    r10 = r10/(len(testDataDict.keys()) - 1)
-                    p1 = p1/(len(testDataDict.keys()) - 1)
-                    p3 = p3/(len(testDataDict.keys()) - 1)
-
-                    #print([G_w1, G_w2, G_b1, G_b2, D_w1, D_w2, D_b1, D_b2])
-
-                    print("Recall@10:", r10)
-                    print("Precision@1:", p1)
-                    print("Precision@3:", p3)
+                    dfDict = {"Neural Network": dfList}
+                    allDists = [[1] * 3] * (len(testDataDict.keys())-1)
+                    Evaluators.calculate_metrics(dfDict, allDists, "Test Set")
 
 
 if __name__ == '__main__':

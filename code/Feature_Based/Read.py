@@ -6,8 +6,8 @@ import pickle
 from sklearn.model_selection import train_test_split
 
 def open_json_as_dict(filename):
-    cur_path = os.path.dirname(__file__)
-    f = open(cur_path + filename)
+    #cur_path = os.path.dirname(__file__)
+    f = open(filename)
 
     return json.loads(f.read())
 
@@ -15,7 +15,7 @@ def extract_field(field, dict):
     list = []
     for d in dict:
         if field in d:
-            list += [d[field]]
+            list += [d[field].lower()]
     return list
 
 def extract_all_distractors(dictIn):
@@ -49,9 +49,10 @@ def extract_all_fields(dict, rank):
   dist2 = extract_field("distractor2", dict)[0:rank]
   dist3 = extract_field("distractor3", dict)[0:rank]
 
+  #allDistsList = list(set([val for a in zip(dist1, dist2, dist3, answer) for val in a][0:rank*4]))
   allDistsList = [val for a in zip(dist1, dist2, dist3) for val in a][0:rank*3]
   allDists = np.transpose([dist1,dist2,dist3])
-  return (question, answer, allDistsList, allDists)
+  return (question, answer, allDists, allDistsList)
 
 def arcEntry_to_sciqEntry(arc):
     sciq = {}
@@ -87,16 +88,25 @@ def run_arc_conversion():
     arc_to_sciq("ARC-Challenge/ARC-Challenge-Train.jsonl", "ARC-Challenge-2/train.json")
 
 def arc_combined_split(X):
-    XTrain, XTestValid = train_test_split(X, test_size=2000)
-    XTest, XValid = train_test_split(XTestValid, test_size=1000)
-    with open("ARC-Combined/train.json", 'w') as fp:
+    XTrain, XTestValid = train_test_split(X, test_size=700)
+    XTest, XValid = train_test_split(XTestValid, test_size=200)
+    with open("ARC-Challenge-3/train.json", 'w') as fp:
         json.dump(XTrain, fp, indent=2)
-    with open("ARC-Combined/test.json", 'w') as fp:
+    with open("ARC-Challenge-3/test.json", 'w') as fp:
         json.dump(XTest, fp, indent=2)
-    with open("ARC-Combined/valid.json", 'w') as fp:
+    with open("ARC-Challenge-3/valid.json", 'w') as fp:
         json.dump(XValid, fp, indent=2)
 
-arc_combined_split(open_json_as_dict("/ARC-Combined/all.json"))
+#arc_combined_split(open_json_as_dict("ARC-Challenge-2/all.json"))
+
+if False:
+    a = open_json_as_dict("../../data/ARC-Combined/train.json")
+    b = open_json_as_dict("../../data/ARC-Combined/valid.json")
+    c = open_json_as_dict("../../data/ARC-Combined/test.json")
+    (question, answer, allDists, allDistsList) = extract_all_fields(a, len(a))
+    (question, answer, allDists, allDistsListb) = extract_all_fields(b, len(b))
+    (question, answer, allDists, allDistsListc) = extract_all_fields(c, len(c))
+    allDistsListALL = sorted(list(set(allDistsList + allDistsListb + allDistsListc)))
 
 if False:
     a = combine_evidence(open_json_as_dict("/SciQ dataset-2 3/train.json"))
