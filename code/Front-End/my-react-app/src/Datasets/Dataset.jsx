@@ -1,20 +1,20 @@
 import React from 'react';
 import './Datasets.css';
-import sciqTrainData from './SciQ dataset-2 3/train.json';
-import sciqValidData from './SciQ dataset-2 3/valid.json';
-import sciqTestData from './SciQ dataset-2 3/test.json'; 
+import sciqTrainData from '../../../../../data/SciQ dataset-2 3/train.json';
+import sciqValidData from '../../../../../data/SciQ dataset-2 3/valid.json';
+import sciqTestData from '../../../../../data/SciQ dataset-2 3/test.json'; 
 
-import arcEasyTrainData from './ARC-Easy-2/train.json';
-import arcEasyValidData from './ARC-Easy-2/valid.json';
-import arcEasyTestData from './ARC-Easy-2/test.json'; 
+import arcEasyTrainData from '../../../../../data/ARC-Easy-2/train.json';
+import arcEasyValidData from '../../../../../data/ARC-Easy-2/valid.json';
+import arcEasyTestData from '../../../../../data/ARC-Easy-2/test.json'; 
 
-import arcChallengeTrainData from './ARC-Challenge-2/train.json';
-import arcChallengeValidData from './ARC-Challenge-2/valid.json';
-import arcChallengeTestData from './ARC-Challenge-2/test.json';
+import arcChallengeTrainData from '../../../../../data/ARC-Challenge-2/train.json';
+import arcChallengeValidData from '../../../../../data/ARC-Challenge-2/valid.json';
+import arcChallengeTestData from '../../../../../data/ARC-Challenge-2/test.json';
 
-import arcCombinedTrainData from './ARC-Combined/train.json';
-import arcCombinedValidData from './ARC-Combined/valid.json';
-import arcCombinedTestData from './ARC-Combined/test.json';
+import arcCombinedTrainData from '../../../../../data/ARC-Combined/train.json';
+import arcCombinedValidData from '../../../../../data/ARC-Combined/valid.json';
+import arcCombinedTestData from '../../../../../data/ARC-Combined/test.json';
 
 import datasets from './figures/datasets.png'
 import paper from './figures/paper.png'

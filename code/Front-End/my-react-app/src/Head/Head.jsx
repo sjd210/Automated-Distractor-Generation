@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import './Head.css';
-import icon from './icon.png'
+import icon from './figures/icon.png'
 
 function Banner() {
     return (

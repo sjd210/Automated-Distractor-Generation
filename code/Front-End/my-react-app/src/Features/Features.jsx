@@ -1,6 +1,6 @@
 import React from 'react';
 import './Features.css';
-import features from './features.png'
+import features from './figures/features.png'
 
 function Feature(feature) {
   return (

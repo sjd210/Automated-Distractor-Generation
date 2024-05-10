@@ -1,6 +1,6 @@
 import React from 'react';
 import './Home.css';
-import title from './title.png';
+import title from './figures/title.png';
 
 function Bio() {
   return (

@@ -1,12 +1,12 @@
 import React from 'react';
 import './Models.css';
-import models from './models.png'
+import models from './figures/models.png'
 import { Link } from "react-router-dom"
 
-import logisticRegression from "./logisticregression.png"
-import lambdaMART from "./lambdamart.png"
-import randomForest from "./randomforest.png"
-import neuralNetwork from "./neuralnetwork.png"
+import logisticRegression from "./figures/logisticregression.png"
+import lambdaMART from "./figures/lambdamart.png"
+import randomForest from "./figures/randomforest.png"
+import neuralNetwork from "./figures/neuralnetwork.png"
 
 function Bio() {
 

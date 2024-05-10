@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import './Models.css';
-import models from './models.png'
-import paper from './paper.png'
+import models from './figures/models.png'
+import paper from './figures/paper.png'
 
-import sciqTestData from '../Datasets/SciQ dataset-2 3/test.json'; 
-import arcEasyTestData from '../Datasets/ARC-Easy-2/test.json'; 
-import arcChallengeTestData from '../Datasets/ARC-Challenge-2/test.json';
-import arcCombinedTestData from '../Datasets/ARC-Combined/test.json';
+import sciqTestData from '../../../../../data/SciQ dataset-2 3/test.json'; 
+import arcEasyTestData from '../../../../../data/ARC-Easy-2/test.json'; 
+import arcChallengeTestData from '../../../../../data/ARC-Challenge-2/test.json';
+import arcCombinedTestData from '../../../../../data/ARC-Combined/test.json';
 
-import sciqTestResults from '../Datasets/SciQ dataset-2 3/testResults.json'; 
-import arcEasyTestResults from '../Datasets/ARC-Easy-2/testResults.json'; 
-import arcChallengeTestResults from '../Datasets/ARC-Challenge-2/testResults.json';
-import arcCombinedTestResults from '../Datasets/ARC-Combined/testResults.json';
+import sciqTestResults from '../../../../../data/SciQ dataset-2 3/testResults.json'; 
+import arcEasyTestResults from '../../../../../data/ARC-Easy-2/testResults.json'; 
+import arcChallengeTestResults from '../../../../../data/ARC-Challenge-2/testResults.json';
+import arcCombinedTestResults from '../../../../../data/ARC-Combined/testResults.json';
 
 function ModelInterface(){
   const [dataset, setDataset] = useState("")
