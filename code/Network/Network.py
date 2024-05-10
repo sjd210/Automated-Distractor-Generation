@@ -36,7 +36,7 @@ fill = '<->'
 
 
 print("1. Loading embeddings and vocab")
-vocab, embd = Read.build_vocab(dataset, embeddingsPath)
+vocab, embd = Read.build_vocab(dataset)
 if len(embeddingsPath) > 0:
     assert(embd.shape[1] == embeddingDim)
     with open('{}/embd.pkl'.format(dataset), 'wb') as fout:
@@ -183,7 +183,6 @@ def main():
                 choiceReward = choiceReward - baselineVal
 
                 loss = generator(torch.tensor(choiceSamples).cuda(), torch.tensor(choiceIndexes).cuda(), choiceReward, torch.tensor(probS).cuda().long() + weightDecay * (evaluateLoss(G_v1) + evaluateLoss(G_v2)))
-                                        # JUST EDITED THIS ^
                 g_opt.zero_grad()
                 loss.backward()
                 g_opt.step()

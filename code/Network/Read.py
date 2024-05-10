@@ -1,14 +1,14 @@
 import pickle
 import math
 
-def build_vocab(dataset, embeddings_path):
+def build_vocab(dataset):
     vocab = None
     print(" 1.1. Loading saved vocab")
     with open('{}/vocab.pkl'.format(dataset), 'rb') as vocabFile:
         vocab = pickle.load(vocabFile)
 
     embd = None
-    print(" 1.2. Loading saved embeddings") # MUST EDIT THIS
+    print(" 1.2. Loading saved embeddings") 
     with open('{}/embd.pkl'.format(dataset), 'rb') as embedFile:
         embd = pickle.load(embedFile)
 

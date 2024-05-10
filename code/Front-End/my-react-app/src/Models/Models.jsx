@@ -22,8 +22,10 @@ function Bio() {
 
   return (
     <div className="Bio2">
-      <br/>
-      <img className="title" src={models}/>  
+      <div className="beforeTitle">
+        <br/>
+        <img className="title" src={models}/> 
+      </div> 
       <div className="afterTitle">
         <div className="Grid">
           

@@ -1,5 +1,6 @@
-.Bio2 {
-    background-color: rgb(98, 151, 231);
+.beforeTitle {
+    background-image: url("bg.png");
+    background-size:cover;
 }
   
 .Subtitle {

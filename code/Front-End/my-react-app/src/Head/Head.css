@@ -1,12 +1,13 @@
 .container {
-  background-color: rgb(98, 151, 231);
+  background-color: #b4e5a2;
   min-width: 100vw;
   padding-left: 0%;
 }
 
 .Nav {
-  background-color: rgb(120, 120, 120);
-  border-radius: 20px;
+  background-image: url("hd.png");
+  border-radius: 0px;
+  background-size: contain;
   width: 100vw;
   height: 9vh;
   overflow: visible;

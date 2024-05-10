@@ -9,9 +9,9 @@ import arcChallengeTestData from '../Datasets/ARC-Challenge-2/test.json';
 import arcCombinedTestData from '../Datasets/ARC-Combined/test.json';
 
 import sciqTestResults from '../Datasets/SciQ dataset-2 3/testResults.json'; 
-import arcEasyTestResults from '../Datasets/ARC-Easy-2/test.json'; 
-import arcChallengeTestResults from '../Datasets/ARC-Challenge-2/test.json';
-import arcCombinedTestResults from '../Datasets/ARC-Combined/test.json';
+import arcEasyTestResults from '../Datasets/ARC-Easy-2/testResults.json'; 
+import arcChallengeTestResults from '../Datasets/ARC-Challenge-2/testResults.json';
+import arcCombinedTestResults from '../Datasets/ARC-Combined/testResults.json';
 
 function ModelInterface(){
   const [dataset, setDataset] = useState("")
@@ -117,8 +117,10 @@ function ModelInterface(){
   return (
     <div className="Bio">
       <div className="Bio2">
+      <div className="beforeTitle">
         <br/>
-        <img className="title" src={models}/>
+        <img className="title" src={models}/> 
+      </div> 
         <div className="afterTitle">
         <br style={{content: "", margin: "2em", display: "block", "font-size": 5 }}/>
           {tables}

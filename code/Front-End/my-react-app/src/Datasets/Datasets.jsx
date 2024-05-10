@@ -1,6 +1,7 @@
 import React from 'react';
 import './Datasets.css';
 import { Link } from "react-router-dom"
+import Popup from 'reactjs-popup'
 
 import datasets from './figures/datasets.png'
 
@@ -22,12 +23,33 @@ function Contents() {
   squares[3] = new Array(1)
   squares[3][0] = (<div className="model"> <Link to="/datasets/arccombined"> <img src={arcCombined}/> </Link> </div>)
   squares[4] = new Array(1)
-  squares[4][0] = (<div className="model"> <Link to="/datasets/new"> <img src={newBook}/> </Link> </div>)
+  squares[4][0] = (<div className="model"> 
+  <Popup trigger={<img src={newBook}/>} modal> 
+    <span> 
+      <div className="popup">
+       <form>
+          <label>
+            {"Question:"}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="text" name="question" />
+          </label>
+          <br/>
+          <label>
+            {"Correct Answer: "}
+            <input type="text" name="answer" />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    </span>  
+  </Popup>
+</div>)
 
   return (
     <div className="Bio2">
-      <br/>
-      <img className="title" src={datasets}/>
+      <div className="beforeTitle">
+        <br/>
+        <img className="title" src={datasets}/> 
+      </div> 
       <div className="afterTitle">
       <div className="datasetGrid">
         {squares}

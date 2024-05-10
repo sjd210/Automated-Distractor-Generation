@@ -4,7 +4,6 @@ import './index.css';
 import Home from './Home/Home';
 import Datasets from './Datasets/Datasets';
 import Dataset from './Datasets/Dataset';
-import CustomDataset from './Datasets/CustomDataset';
 import Features from './Features/Features';
 import Models from './Models/Models';
 import Model from './Models/Model';
@@ -24,8 +23,7 @@ root.render(
         <Route path="/datasets/sciq" element={<Dataset/>} /> 
         <Route path="/datasets/arceasy" element={<Dataset/>} /> 
         <Route path="/datasets/arcchallenge" element={<Dataset/>} /> 
-        <Route path="/datasets/arccombined" element={<Dataset/>} /> 
-        <Route path="/datasets/new" element={<CustomDataset/>} /> 
+        <Route path="/datasets/arccombined" element={<Dataset/>} />  
         <Route path="/features" element={<Features/>} /> 
         <Route path="/models" element={<Models/>} /> 
         <Route path="/models/logisticregression" element={<Model/>} /> 

@@ -85,8 +85,10 @@ function Contents() {
 
   return (
     <div className="Bio2">
-      <br/>
-      <img className="title" src={datasets}/>  
+      <div className="beforeTitle">
+        <br/>
+        <img className="title" src={datasets}/> 
+      </div> 
       <div className="afterTitle">
       <br/>
       {JsonToTable(trainData, train, ["question", "correct_answer", "distractor1", "distractor2", "distractor3"])}

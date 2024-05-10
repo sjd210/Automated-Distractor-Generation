@@ -1,7 +1,7 @@
 import math
 import numpy as np
 
-def recallAt(dataframe, rank, questionNo, allDists): # "we report top recall (R@10)" - so find the best one??
+def recallAt(dataframe, rank, questionNo, allDists): 
     total = 0
     for i in range(1, rank+1):
         total += dataframe.iloc[len(dataframe)-i]['distractor'] in [str(allDists[questionNo][0]), str(allDists[questionNo][1]), str(allDists[questionNo][2])]
@@ -57,7 +57,29 @@ def tTestMAP(dataframeList1, dataframeList2, rank, allDists, tRank):
         diffSquared[i] = diff[i] * diff[i]
         i += 1
 
-    t = sum(diff)/(math.sqrt(((tRank)*sum(diffSquared) - sum(diff) * sum(diff))/(tRank-1)))
+    t = sum(diff)/(math.sqrt(((tRank)*sum(diffSquared) - sum(diff) ** 2)/(tRank-1)))
+    return t
+
+def unpairedTTestMAP(dataframeList1, dataframeList2, rank, allDists1, allDists2, tRank):
+    size = len(dataframeList1)
+    if (size != len(dataframeList2)):
+        print("Invalid dataframe sizes")
+
+    MAP1 = meanAveragePrecisionAt(dataframeList1, rank, allDists1)
+    MAP2 = meanAveragePrecisionAt(dataframeList2, rank, allDists2)
+
+    randomChoices = np.random.choice(size, tRank, replace=False)
+    i = 0
+    sum1 = 0
+    sum2 = 0
+    for q in randomChoices:
+        sum1 += (averagePrecisionAt(dataframeList1[q], rank, q, allDists1) - MAP1) ** 2
+        sum2 += (averagePrecisionAt(dataframeList2[q], rank, q, allDists2) - MAP2) ** 2
+        i += 1
+
+    s1 = sum1/(i**2)
+    s2 = sum2/(i**2)
+    t = (MAP1 - MAP2)/math.sqrt(s1 + s2)
     return t
 
 
@@ -74,7 +96,7 @@ def idcgAt(rank):
             total += 1/math.log(i+1, 2)
     return total
 
-def ndcgAt(dataframe, rank, questionNo, allDists): #https://www.evidentlyai.com/ranking-metrics/ndcg-metric
+def ndcgAt(dataframe, rank, questionNo, allDists):
     return dcgAt(dataframe, rank, questionNo, allDists)/idcgAt(rank)
 
 def meanNdcgAt(dataframeList, rank, allDists):

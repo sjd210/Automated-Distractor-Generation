@@ -1,5 +1,3 @@
-from wikipedia2vec import Wikipedia2Vec
-from gensim.models import KeyedVectors
 import numpy as np
 from numpy import dot
 from numpy.linalg import norm

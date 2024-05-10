@@ -38,8 +38,10 @@ function Contents() {
 
   return (
     <div className="Bio2">
-      <br/>
-      <img className="title" src={features}/>
+      <div className="beforeTitle">
+        <br/>
+        <img className="title" src={features}/> 
+      </div> 
       <div className="afterTitle">
         <br style={{content: "", margin: "2em", display: "block", "font-size": 5 }}/>
                 {htmlFeature}

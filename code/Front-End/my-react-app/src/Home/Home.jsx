@@ -5,8 +5,10 @@ import title from './title.png';
 function Bio() {
   return (
     <div className="Bio2">
+      <div className="beforeTitle">
       <br/>
       <img className="title" src={title}/>  
+      </div>
       <div className="afterTitle">
         <br style={{content: "", margin: "2em", display: "block", "font-size": 5 }}/>
         <p className="Subtitle"> <b> <u> Sections </u></b> </p>
